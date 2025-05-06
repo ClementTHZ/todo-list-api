@@ -22,37 +22,22 @@ var app = builder.Build();
 
 app.MapPost("/tasks/new", async (httpContext) =>
 {
-    Task task = await httpContext.Request.ReadFromJsonAsync<Task>();
-
-    var dbfile = @"DataSource=C:\Users\ClémentTHOREZ\Documents\C#\Projet-C#\SQLITE-TodoList\BDD\todolist.db";
-    using (var db = new SqliteConnection(dbfile))
+    var body = await httpContext.Request.ReadFromJsonAsync<Task>();
+    if (body != null)
     {
-        db.Open();
-        using (var commande = db.CreateCommand())
-        {
-            commande.CommandText = $"INSERT INTO task (title) VALUES ('{task.title}')";
-            commande.ExecuteNonQuery();
-        }
+        Task task = body;
+        TaskServices.CreatedTask(task.Title);
+        httpContext.Response.Headers.Append("content-type", "application/text");
+        await httpContext.Response.WriteAsync("Task has been created !");
     }
-
-    httpContext.Response.Headers.Append("content-type", "application/text");
-    await httpContext.Response.WriteAsync("Task has been created !");
 });
 
 app.MapDelete("/tasks/{id}", async (httpContext) =>
 {
-    string id = httpContext.Request.RouteValues["id"]?.ToString();
-    var dbfile = @"DataSource=C:\Users\ClémentTHOREZ\Documents\C#\Projet-C#\SQLITE-TodoList\BDD\todolist.db";
-    using (var db = new SqliteConnection(dbfile))
-    {
-        db.Open();
-        using (var commande = db.CreateCommand())
-        {
-            commande.CommandText = "DELETE FROM task WHERE id=@id";
-            commande.Parameters.AddWithValue("@id", id);
-            commande.ExecuteNonQuery();
-        }
-    }
+    int id = 0;
+    var response = httpContext.Request.RouteValues["id"]?.ToString();
+    if (response != null) id = Convert.ToInt32(response);
+    TaskServices.DeleteTask(id);
     httpContext.Response.Headers.Append("content-type", "application/text");
     await httpContext.Response.WriteAsync("Task has been deleted !");
 });

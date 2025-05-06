@@ -1,7 +1,14 @@
 public class Task
 {
-    public string title { get; set; }
-    public bool is_done = false;
+    public required string Title { get; set; }
+    public bool Is_Done { get; set; } = false;
 
-    public DateTime created_at = DateTime.Now;
+    public DateTime Created_At { get; set; } = DateTime.Now;
+
+    // public void Book(string title, bool is_done, DateTime created_at)
+    // {
+    //     Title = title;
+    //     Is_Done = is_done;
+    //     Created_At = created_at;
+    // }
 }
