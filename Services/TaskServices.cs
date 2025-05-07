@@ -14,15 +14,15 @@ public class TaskServices
     public static DataTable GetAllTask()
     {
         var tasks = GetDataTable("SELECT * FROM tasks");
-        foreach (DataRow row in tasks.Rows)
-        {
-            Console.WriteLine($"ID: {row["id"]}, Title: {row["title"]}");
-        }
         return tasks;
     }
-    public static void GetTaskById(int id)
+    public static DataTable GetTaskById(int id) // TODO Finir la méthode
     {
-
+        var task = GetDataTable("SELECT * FROM tasks WHERE id = @id", new Dictionary<string, object> { { "@id", id } });
+        foreach (DataRow row in task.Rows)
+        {
+        }
+        return task;
     }
 
     private static void ExecuteNonQuery(string sql, Dictionary<string, object> parameters)
