@@ -1,5 +1,6 @@
 public class Task
 {
+    public int Id { get; set; }
     public required string Title { get; set; }
     public bool Is_Done { get; set; } = false;
 
