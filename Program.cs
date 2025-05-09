@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Data.Sqlite;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 /*Add services to the container.
@@ -53,35 +52,6 @@ app.MapDelete("/tasks/{id}", async (httpContext) =>
     await httpContext.Response.WriteAsync("Task has been deleted !");
 });
 
-// app.MapGet("/tasks2", async (httpContext) =>
-// {
-//     var tasks = TaskServices.GetAllTask();
-//     var response = new StringBuilder();
-//     foreach (DataRow row in tasks.Rows)
-//     {
-//         response.AppendLine($"{row["id"]} - {row["title"]}");
-//     }
-//     httpContext.Response.Headers.Append("content-type", "text");
-//     await httpContext.Response.WriteAsync(response.ToString());
-// });
-
-// app.MapGet("/tasks2", async (httpContext) => // On envoie un Json au client
-// {
-//     var tasks = TaskServices.GetAllTask();
-//     var response = new StringBuilder();
-
-//     response.Append("[");
-//     for (int i = 0; i < tasks.Rows.Count; i++)
-//     {
-//         var row = tasks.Rows[i];
-//         response.Append($"{{\"id\": \"{row["id"]}\", \"title\": \"{row["title"]}\"}}");
-//         if (i < tasks.Rows.Count - 1) response.Append(",");
-//     }
-//     response.Append("]");
-
-//     httpContext.Response.Headers.Append("content-type", "application/json");
-//     await httpContext.Response.WriteAsync(response.ToString());
-// });
 app.MapGet("/tasks", async (httpContext) => // On envoie un Json au client
 {
     var tasks = TaskServices.GetAllTask();
@@ -123,4 +93,37 @@ app.MapGet("/tasks/{id}", async (httpContext) =>
 });
 
 app.Run();
+
+/* alternative mapGet
+// app.MapGet("/tasks2", async (httpContext) =>
+// {
+//     var tasks = TaskServices.GetAllTask();
+//     var response = new StringBuilder();
+//     foreach (DataRow row in tasks.Rows)
+//     {
+//         response.AppendLine($"{row["id"]} - {row["title"]}");
+//     }
+//     httpContext.Response.Headers.Append("content-type", "text");
+//     await httpContext.Response.WriteAsync(response.ToString());
+// });
+
+// app.MapGet("/tasks2", async (httpContext) => // On envoie un Json au client
+// {
+//     var tasks = TaskServices.GetAllTask();
+//     var response = new StringBuilder();
+
+//     response.Append("[");
+//     for (int i = 0; i < tasks.Rows.Count; i++)
+//     {
+//         var row = tasks.Rows[i];
+//         response.Append($"{{\"id\": \"{row["id"]}\", \"title\": \"{row["title"]}\"}}");
+//         if (i < tasks.Rows.Count - 1) response.Append(",");
+//     }
+//     response.Append("]");
+
+//     httpContext.Response.Headers.Append("content-type", "application/json");
+//     await httpContext.Response.WriteAsync(response.ToString());
+// });
+*/
+
 
